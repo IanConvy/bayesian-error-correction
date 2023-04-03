@@ -4,7 +4,7 @@ import numpy as np
 
 import tqdm
 
-import tools
+from src import tools
 
 # This module runs numerical experiments for the logarithmic
 # Bayesian model using idealized measurement data.
@@ -575,8 +575,6 @@ LINEAR = True
 LOG = True
 THRESH = True
 
-SAVE = True
-
 T_list = [100] # Time of runs
 gamma_list = [1e-6, 5e-6, 1e-5, 5e-5, 1e-4, 5e-4, 1e-3, 5e-3, 1e-2, 5e-2, 1e-1] # Error rates
 step_list = [100e-9] # Averaging interval
@@ -641,7 +639,4 @@ for trial in range(10):
                     print(f'Acc_{acc:.4f}')
                     print(f'Fidelity_{thresh_acc:.4f}')
 
-                results[str((T, time_step, gamma))] = [optimal_acc, linear_acc, log_max_acc, log_two_acc, thresh_acc]
-
-    if SAVE: np.savez_compressed(f"error_fidel_{trial}", **results)        
-            
+                results[str((T, time_step, gamma))] = [optimal_acc, linear_acc, log_max_acc, log_two_acc, thresh_acc]   

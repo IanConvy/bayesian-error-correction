@@ -1,9 +1,7 @@
-import pathlib
-
 import numpy as np
 import torch
 
-import tools
+from src import tools
 
 # This module runs numerical experiments using data generated off
 # of an imperfect measurement record from a real quantum device.
@@ -308,10 +306,7 @@ if __name__ == "__main__":
     # The following code runs numerical experiments using the Bayesian
     # model and corrector.
 
-    active = True # Determines if the model should correct errors (True) or track them (False)
-    save = True  # Determines if the results should be saved.
-
-    
+    active = True # Determines if the model should correct errors (True) or track them (False) 
     t1_list = [True, False] # Determines if excitations and decays (False) or only decay (True) should occur
     T_list = [120]  # Time of runs
     gamma_list = [0.04]  # Error rates
@@ -346,34 +341,6 @@ if __name__ == "__main__":
                                 test_system, bayes, 10000)
                             corrector.simulate_spliced(
                                 num_steps, ignore_period=ignore, streak=streak)
-
-                            if save:
-                                dir_name = "bayes_results/"
-                                dir_name += "T1" if t1 else "Bitflip"
-                                dir_name += f"/gamma{gamma:0.2f}_T{T}"
-                                dir_name += "_ringT" if ring else "_ringF"
-                                dir_name += "_acT" if corr else "_acF"
-                                dir_name += "_drT" if drift_func is not None else "_drF"
-                                pathlib.Path(dir_name).mkdir(
-                                    exist_ok=True, parents=True)
-                                dir_name += f"/seed{traj_set}_init{init_state}_num10000.npz"
-                                zip_dict = {
-                                    "num_trajs": np.array(200000),
-                                    "num_steps": np.array(num_steps),
-                                    "autocorr": np.array(corr),
-                                    "ring": np.array(ring),
-                                    "T": np.array(T),
-                                    "gamma": np.array(gamma),
-                                    "step": np.array(0.032),
-                                    "random_seed": np.array(traj_set),
-                                    "init_state": np.array(init_state),
-                                    "only_T1": np.array(t1),
-                                    "desired_states": np.full_like(states, init_state),
-                                    "pred_states": corrector.pred_state,
-                                    "sys_states": corrector.sys_state,
-                                    "baseline_states": corrector.baseline_state
-                                }
-                                np.savez_compressed(dir_name, **zip_dict)
                         print("")
 
                     else:
@@ -389,6 +356,3 @@ if __name__ == "__main__":
                             states = torch.cat([states, labels], axis=0)
                         print("")
                         outputs = bayes.tracking_test(measurements, states)
-                        if save:
-                            np.savez_compressed(f"bayes_results/track_t1_{t1}_sys_{sys_type}_T_{T}_gamma_{gamma:.2f}.npz",
-                                                pred_states=outputs.numpy(), states=states.numpy())

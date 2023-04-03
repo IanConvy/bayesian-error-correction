@@ -91,7 +91,7 @@ class Real_Simulated():
         # step of the ring pattern even if "ring" was set to False. This is needed
         # for the active correction code.
 
-        mean_dict = np.load("data/flip_means.npz")
+        mean_dict = np.load("src/data/flip_means.npz")
         if self.ring:
             flip_means = torch.zeros(8, 3, 94, 2)
         elif active:
