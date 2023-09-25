@@ -9,3 +9,5 @@ and [Machine Learning for Continuous Quantum Error Correction on Superconducting
 whose abstracts have been reproduced above.
 
 The `examples.ipynb` Jupyter notebook provides an overview of the quantum measurement data, and a simple version of the Bayesian algorithm used to filter it. The full model code can be found within the `log_bayes.py` and `real_data.py` modules in the `src` directory.
+
+A non-interactive write-up can be found on [my website](https://ianconvy.github.io/projects/phd/bayesian/bayesian.html).
